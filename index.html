@@ -1,0 +1,965 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#160d20">
+
+<title>Memory Maker | Create Something Special</title>
+
+<!-- Bootstrap CSS library -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Firebase libraries -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<style>
+:root {
+    --pink: #ff75a9;
+    --purple: #b66cff;
+    --dark: #160d20;
+    --muted: #c7b8ce;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background:
+        radial-gradient(circle at 10% 10%, #512247 0%, transparent 35%),
+        radial-gradient(circle at 90% 90%, #35205c 0%, transparent 40%),
+        var(--dark);
+}
+
+button, input, textarea {
+    font-family: inherit;
+}
+
+.navbar {
+    background: rgba(16, 8, 24, .88);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.brand {
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    color: #ff9cbe !important;
+    font-weight: 700;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 13px;
+}
+
+.hero {
+    padding: 85px 15px 55px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(38px, 7vw, 70px);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.hero h1 span {
+    color: var(--pink);
+}
+
+.hero p {
+    max-width: 600px;
+    margin: 20px auto;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+.script-font {
+    font-family: 'Dancing Script', cursive;
+}
+
+.section-panel {
+    max-width: 900px;
+    margin: 0 auto 25px;
+    padding: 28px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.065);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 15px 50px rgba(0,0,0,.12);
+}
+
+.section-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #ffadd0;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    color: #f0ddeb;
+    font-size: 13px;
+}
+
+.form-control {
+    background: rgba(0,0,0,.25);
+    color: white;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 12px;
+    padding: 13px 15px;
+}
+
+.form-control:focus {
+    background: rgba(0,0,0,.35);
+    color: white;
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(255,117,169,.12);
+}
+
+.form-control::placeholder {
+    color: #aa99b0;
+}
+
+.form-control[type=file]::file-selector-button {
+    background: var(--pink);
+    color: #260d1c;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-right: 12px;
+}
+
+.photo-preview {
+    display: none;
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    border-radius: 16px;
+    margin: 15px auto 0;
+    background: #100914;
+}
+
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 14px;
+}
+
+.template-card {
+    border: 1px solid rgba(255,255,255,.13);
+    background: rgba(255,255,255,.045);
+    color: white;
+    border-radius: 17px;
+    padding: 22px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+    min-width: 0;
+}
+
+.template-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--pink);
+    background: rgba(255,117,169,.1);
+}
+
+.template-card.selected {
+    border: 2px solid var(--pink);
+    background: rgba(255,117,169,.15);
+    box-shadow: 0 0 25px rgba(255,117,169,.13);
+}
+
+.template-icon {
+    display: block;
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.template-card strong {
+    font-size: 13px;
+    display: block;
+}
+
+.template-card small {
+    display: block;
+    color: #c8b8ce;
+    font-size: 10px;
+    margin-top: 7px;
+}
+
+.main-btn {
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 40px;
+    background: linear-gradient(120deg, #ff6fa7, #ad54df);
+    box-shadow: 0 8px 25px rgba(255,80,160,.2);
+    transition: .3s;
+}
+
+.main-btn:hover {
+    transform: translateY(-3px);
+    color: white;
+    box-shadow: 0 12px 35px rgba(255,80,160,.35);
+}
+
+.main-btn:disabled {
+    opacity: .6;
+    cursor: wait;
+    transform: none;
+}
+
+.status {
+    font-size: 12px;
+    color: #ffc0d8;
+    text-align: center;
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+}
+
+.result-box {
+    display: none;
+    text-align: center;
+}
+
+.share-link {
+    background: rgba(0,0,0,.3);
+    color: #ffb8d2;
+    padding: 14px;
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    margin: 18px 0;
+}
+
+.copy-btn {
+    background: white;
+    color: #8b2c69;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 25px;
+    font-weight: 600;
+}
+
+/* SHARED PAGE */
+
+#viewer {
+    display: none;
+    min-height: 100vh;
+    padding: 40px 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.memory-page {
+    width: min(760px, 100%);
+    padding: 35px;
+    border-radius: 28px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 70px rgba(0,0,0,.35);
+}
+
+.memory-page h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(43px, 8vw, 75px);
+    line-height: 1.15;
+    margin: 12px 0;
+    overflow-wrap: anywhere;
+}
+
+.memory-page p {
+    line-height: 1.9;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.memory-photo {
+    display: block;
+    width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    margin: 25px auto;
+    border-radius: 20px;
+    background: rgba(0,0,0,.2);
+}
+
+.view-kicker {
+    font-size: 11px;
+    letter-spacing: 4px;
+    font-weight: 600;
+}
+
+.view-message {
+    font-size: 14px;
+}
+
+.view-footer {
+    margin-top: 25px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 28px;
+}
+
+.friend-theme {
+    background: linear-gradient(145deg, #3a235f, #a44885);
+}
+
+.birthday-theme {
+    background: linear-gradient(145deg, #6d3265, #c87a59);
+}
+
+.love-theme {
+    background: linear-gradient(145deg, #501333, #b63872);
+}
+
+.forever-theme {
+    background: linear-gradient(145deg, #210916, #831b4d, #35103c);
+    border: 1px solid #ff9bc0;
+}
+
+.anniversary-theme {
+    background: linear-gradient(145deg, #42202d, #a65b75, #572b4d);
+}
+
+.proposal-theme {
+    background: linear-gradient(145deg, #53103e, #bd4380);
+}
+
+.distance-theme {
+    background: linear-gradient(145deg, #101c3d, #453d83);
+}
+
+.decoration {
+    font-size: 34px;
+    margin: 15px 0;
+}
+
+.view-yes {
+    display: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    background: white;
+    color: #9c2f68;
+    font-weight: 600;
+    margin-top: 18px;
+}
+
+#errorPage {
+    display: none;
+    text-align: center;
+    padding: 100px 15px;
+}
+
+footer {
+    text-align: center;
+    color: #aa99b0;
+    font-size: 12px;
+    padding: 30px 10px;
+}
+
+@media(max-width:650px) {
+    .hero {
+        padding-top: 60px;
+    }
+
+    .section-panel {
+        padding: 20px;
+    }
+
+    .template-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 10px;
+    }
+
+    .template-card {
+        padding: 18px 8px;
+    }
+
+    .memory-page {
+        padding: 25px 18px;
+    }
+}
+
+@media(max-width:360px) {
+    .template-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand brand" href="./">
+            Memory Maker ❤️
+        </a>
+
+        <a href="./" class="nav-link">
+            <i class="bi bi-house-heart"></i> Home
+        </a>
+    </div>
+</nav>
+
+<!-- GENERATOR -->
+
+<main id="generator">
+
+    <section class="hero container">
+        <div class="badge rounded-pill bg-light text-dark px-3 py-2 mb-3">
+            ✨ Your memories, your website
+        </div>
+
+        <h1>
+            Make Your Own<br>
+            <span>Beautiful Website</span>
+        </h1>
+
+        <p>
+            Upload your favourite photo, select a design,
+            write your message and create a special website
+            with a shareable link.
+        </p>
+    </section>
+
+    <div class="container pb-5">
+
+        <!-- PHOTO -->
+
+        <section class="section-panel">
+            <h2 class="section-title">
+                <i class="bi bi-camera-heart"></i>
+                01. Upload Your Photo
+            </h2>
+
+            <label class="form-label" for="photo">
+                Select a photo from your device
+            </label>
+
+            <input
+                class="form-control"
+                type="file"
+                id="photo"
+                accept="image/jpeg,image/png,image/webp"
+            >
+
+            <img id="photoPreview" class="photo-preview" alt="Selected photo">
+
+            <small class="text-secondary">
+                JPG, PNG or WEBP. Maximum file size: 5 MB.
+            </small>
+        </section>
+
+        <!-- TEMPLATES -->
+
+        <section class="section-panel">
+            <h2 class="section-title">
+                <i class="bi bi-palette"></i>
+                02. Choose Your Template
+            </h2>
+
+            <div class="template-grid">
+
+                <button type="button" class="template-card selected" data-type="friend">
+                    <span class="template-icon">👯</span>
+                    <strong>Best Friend</strong>
+                    <small>Friendship memories</small>
+                </button>
+
+                <button type="button" class="template-card" data-type="birthday">
+                    <span class="template-icon">🎂</span>
+                    <strong>Birthday</strong>
+                    <small>Birthday celebration</small>
+                </button>
+
+                <button type="button" class="template-card" data-type="love">
+                    <span class="template-icon">❤️</span>
+                    <strong>Love Memory</strong>
+                    <small>Romantic memories</small>
+                </button>
+
+                <button type="button" class="template-card" data-type="forever">
+                    <span class="template-icon">💗</span>
+                    <strong>My Forever Love</strong>
+                    <small>Forever and always</small>
+                </button>
+
+                <button type="button" class="template-card" data-type="anniversary">
+                    <span class="template-icon">💍</span>
+                    <strong>Anniversary</strong>
+                    <small>Special celebration</small>
+                </button>
+
+                <button type="button" class="template-card" data-type="proposal">
+                    <span class="template-icon">💌</span>
+                    <strong>Proposal</strong>
+                    <small>Will you be mine?</small>
+                </button>
+
+                <button type="button" class="template-card" data-type="distance">
+                    <span class="template-icon">🌙</span>
+                    <strong>Long Distance</strong>
+                    <small>Love beyond distance</small>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- DETAILS -->
+
+        <section class="section-panel">
+            <h2 class="section-title">
+                <i class="bi bi-pencil-square"></i>
+                03. Personalize Your Website
+            </h2>
+
+            <label class="form-label" for="personName">
+                Name or title
+            </label>
+
+            <input
+                class="form-control mb-3"
+                type="text"
+                id="personName"
+                maxlength="50"
+                placeholder="Example: My Beautiful Love"
+            >
+
+            <label class="form-label" for="message">
+                Your special message
+            </label>
+
+            <textarea
+                class="form-control mb-3"
+                id="message"
+                rows="5"
+                maxlength="1000"
+                placeholder="Write something special..."
+            ></textarea>
+
+            <button class="main-btn w-100" id="generateBtn">
+                <i class="bi bi-magic"></i>
+                Create My Website ❤️
+            </button>
+
+            <div class="status" id="status"></div>
+        </section>
+
+        <!-- RESULT -->
+
+        <section class="section-panel result-box" id="result">
+            <h2 class="section-title">
+                🎉 Your Website Is Ready!
+            </h2>
+
+            <p class="text-secondary small">
+                Share your special website with anyone.
+            </p>
+
+            <div class="share-link" id="shareLink"></div>
+
+            <button class="copy-btn" id="copyBtn">
+                <i class="bi bi-copy"></i> Copy Link
+            </button>
+
+            <div class="mt-4">
+                <a class="btn btn-outline-light rounded-pill px-4"
+                   id="openWebsite" href="#">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                    Open Website
+                </a>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- VIEWER PAGE -->
+
+<main id="viewer">
+    <article class="memory-page" id="memoryPage">
+
+        <div class="view-kicker" id="viewKicker"></div>
+
+        <div class="decoration" id="decoration"></div>
+
+        <h1 id="viewTitle"></h1>
+
+        <img class="memory-photo" id="viewPhoto" alt="Shared memory">
+
+        <p class="view-message" id="viewMessage"></p>
+
+        <div id="specialContent"></div>
+
+        <div class="view-footer" id="viewFooter">
+            Made with love ❤️
+        </div>
+
+    </article>
+</main>
+
+<div id="errorPage">
+    <h1 class="script-font text-danger display-3">Memory not found 💔</h1>
+    <p class="text-secondary">This link may be invalid or the page may have been deleted.</p>
+    <a href="./" class="btn btn-outline-light rounded-pill mt-3">
+        Create a new website
+    </a>
+</div>
+
+<footer>
+    Memory Maker ❤️ | Create beautiful memories
+</footer>
+
+<script>
+
+/* FIREBASE */
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+/* APP DATA */
+
+let selectedType = "friend";
+let selectedFile = null;
+
+const $ = id => document.getElementById(id);
+
+const templateData = {
+    friend: {
+        kicker: "A SPECIAL FRIENDSHIP",
+        decoration: "👯 💖 ✨",
+        footer: "Best friends forever! 🫶",
+        className: "friend-theme"
+    },
+
+    birthday: {
+        kicker: "A DAY FULL OF HAPPINESS",
+        decoration: "🎂 🎉 🎈",
+        footer: "Wishing you endless happiness! 🎂",
+        className: "birthday-theme"
+    },
+
+    love: {
+        kicker: "OUR BEAUTIFUL MEMORIES",
+        decoration: "❤️ 🌹 💕",
+        footer: "Forever in my heart ❤️",
+        className: "love-theme"
+    },
+
+    forever: {
+        kicker: "TO MY ONE AND ONLY",
+        decoration: "💗 🌹 ♾️",
+        footer: "You are my forever and always. ❤️",
+        className: "forever-theme"
+    },
+
+    anniversary: {
+        kicker: "ANOTHER YEAR OF LOVE",
+        decoration: "💍 🥂 ❤️",
+        footer: "Here's to many more beautiful years! 💍",
+        className: "anniversary-theme"
+    },
+
+    proposal: {
+        kicker: "I HAVE SOMETHING TO ASK",
+        decoration: "💌 💖 💍",
+        footer: "With all my heart ❤️",
+        className: "proposal-theme"
+    },
+
+    distance: {
+        kicker: "NO DISTANCE CAN CHANGE MY LOVE",
+        decoration: "🌙 ⭐ 💌",
+        footer: "No matter the distance, you are close to my heart. ❤️",
+        className: "distance-theme"
+    }
+};
+
+/* SELECT TEMPLATE */
+
+document.querySelectorAll(".template-card").forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        document.querySelectorAll(".template-card").forEach(item => {
+            item.classList.remove("selected");
+        });
+
+        card.classList.add("selected");
+        selectedType = card.dataset.type;
+
+    });
+
+});
+
+/* IMAGE PREVIEW */
+
+$("photo").addEventListener("change", () => {
+
+    const file = $("photo").files[0];
+
+    selectedFile = null;
+    $("photoPreview").style.display = "none";
+
+    if (!file) return;
+
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    if (!allowed.includes(file.type)) {
+        $("status").textContent = "Please select a JPG, PNG or WEBP photo.";
+        $("photo").value = "";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        $("status").textContent = "Your photo must be smaller than 5 MB.";
+        $("photo").value = "";
+        return;
+    }
+
+    selectedFile = file;
+
+    const localURL = URL.createObjectURL(file);
+
+    $("photoPreview").src = localURL;
+    $("photoPreview").style.display = "block";
+
+    $("status").textContent = "Photo selected successfully ❤️";
+
+});
+
+/* GENERATE WEBSITE */
+
+$("generateBtn").addEventListener("click", async () => {
+
+    const name = $("personName").value.trim();
+    const message = $("message").value.trim();
+
+    if (!selectedFile) {
+        $("status").textContent = "Please select a photo first.";
+        return;
+    }
+
+    if (!name || !message) {
+        $("status").textContent = "Please enter your name and message.";
+        return;
+    }
+
+    const button = $("generateBtn");
+
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Creating...';
+
+    $("status").textContent = "Uploading photo and creating your website...";
+
+    try {
+
+        const pageRef = db.collection("pages").doc();
+
+        const photoRef = storage.ref(
+            "pages/" + pageRef.id + "/photo"
+        );
+
+        await photoRef.put(selectedFile, {
+            contentType: selectedFile.type
+        });
+
+        const photoURL = await photoRef.getDownloadURL();
+
+        await pageRef.set({
+            name: name,
+            message: message,
+            type: selectedType,
+            photoURL: photoURL,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const link = new URL(window.location.href);
+
+        link.search = "";
+        link.hash = "";
+        link.searchParams.set("id", pageRef.id);
+
+        $("shareLink").textContent = link.href;
+        $("openWebsite").href = link.href;
+
+        $("result").style.display = "block";
+        $("status").textContent = "Your website is ready! ❤️";
+
+        $("result").scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        $("status").textContent =
+            "Could not create website: " + error.message;
+
+    } finally {
+
+        button.disabled = false;
+        button.innerHTML = '<i class="bi bi-magic"></i> Create My Website ❤️';
+
+    }
+
+});
+
+/* COPY LINK */
+
+$("copyBtn").addEventListener("click", async () => {
+
+    const link = $("shareLink").textContent;
+
+    try {
+
+        await navigator.clipboard.writeText(link);
+
+        $("copyBtn").innerHTML = '<i class="bi bi-check-circle"></i> Copied!';
+
+    } catch {
+
+        window.prompt("Copy this link:", link);
+
+    }
+
+});
+
+/* LOAD SHARED WEBSITE */
+
+async function loadWebsite(id) {
+
+    $("generator").style.display = "none";
+    $("viewer").style.display = "flex";
+
+    try {
+
+        const doc = await db.collection("pages").doc(id).get();
+
+        if (!doc.exists) {
+            throw new Error("Page not found");
+        }
+
+        const data = doc.data();
+        const theme = templateData[data.type];
+
+        if (
+            !theme ||
+            typeof data.name !== "string" ||
+            typeof data.message !== "string" ||
+            typeof data.photoURL !== "string"
+        ) {
+            throw new Error("Invalid page data");
+        }
+
+        $("memoryPage").className =
+            "memory-page " + theme.className;
+
+        $("viewKicker").textContent = theme.kicker;
+        $("decoration").textContent = theme.decoration;
+        $("viewTitle").textContent = data.name;
+        $("viewMessage").textContent = data.message;
+        $("viewFooter").textContent = theme.footer;
+
+        $("viewPhoto").src = data.photoURL;
+
+        /* SPECIAL TEMPLATE CONTENT */
+
+        const extra = $("specialContent");
+        extra.replaceChildren();
+
+        if (data.type === "forever") {
+
+            extra.textContent = "Every moment with you is my favourite. I choose you, today and always. ❤️";
+
+        } else if (data.type === "proposal") {
+
+            extra.textContent = "Will you make this beautiful journey even more special? 💍";
+
+        } else if (data.type === "distance") {
+
+            extra.textContent = "Miles apart, but always together in heart. 🌙";
+
+        } else if (data.type === "birthday") {
+
+            extra.textContent = "May your special day be filled with smiles, laughter and beautiful memories! 🎉";
+
+        } else if (data.type === "anniversary") {
+
+            extra.textContent = "Every chapter with you is worth celebrating. Here's to our story! 💕";
+
+        } else if (data.type === "friend") {
+
+            extra.textContent = "Life is better with a friend like you. Thank you for every memory! 🫶";
+
+        } else {
+
+            extra.textContent = "Some memories stay in our hearts forever. ❤️";
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        $("viewer").style.display = "none";
+        $("errorPage").style.display = "block";
+
+    }
+
+}
+
+/* CHECK URL */
+
+const params = new URLSearchParams(window.location.search);
+const pageId = params.get("id");
+
+if (pageId) {
+
+    if (/^[A-Za-z0-9]+$/.test(pageId)) {
+        loadWebsite(pageId);
+    } else {
+        $("generator").style.display = "none";
+        $("errorPage").style.display = "block";
+    }
+
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
