@@ -4,404 +4,435 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#160d20">
 
-<title>Memory Maker | Create Something Special</title>
+<title>Forever Together ❤️</title>
 
-<!-- Bootstrap CSS library -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Firebase libraries -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
-<script src="firebase-config.js"></script>
+<script src="./firebase-config.js"></script>
 
 <style>
 :root {
-    --pink: #ff75a9;
-    --purple: #b66cff;
-    --dark: #160d20;
-    --muted: #c7b8ce;
+    --pink: #ff4f91;
+    --purple: #a855f7;
+    --dark: #130b1c;
+    --light: #ffe4f0;
 }
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
+    background: #130b1c;
     color: white;
-    background:
-        radial-gradient(circle at 10% 10%, #512247 0%, transparent 35%),
-        radial-gradient(circle at 90% 90%, #35205c 0%, transparent 40%),
-        var(--dark);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
 }
 
-button, input, textarea {
-    font-family: inherit;
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 15% 20%, #ff4f9135, transparent 35%),
+        radial-gradient(circle at 85% 70%, #a855f735, transparent 35%),
+        radial-gradient(circle at 50% 100%, #ec489920, transparent 40%);
+    z-index: -2;
+}
+
+.heart {
+    position: fixed;
+    bottom: -50px;
+    color: #ff70ac;
+    pointer-events: none;
+    animation: floatHeart linear forwards;
+    z-index: -1;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    15% { opacity: .7; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .navbar {
-    background: rgba(16, 8, 24, .88);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    background: #160c20c9;
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid #ffffff15;
 }
 
 .brand {
+    color: #ff82b5 !important;
     font-family: 'Dancing Script', cursive;
-    font-size: 32px;
-    color: #ff9cbe !important;
+    font-size: 31px;
     font-weight: 700;
-}
-
-.nav-link {
-    color: white !important;
-    font-size: 13px;
 }
 
 .hero {
-    padding: 85px 15px 55px;
     text-align: center;
+    padding: 75px 15px 35px;
 }
 
 .hero h1 {
-    font-size: clamp(38px, 7vw, 70px);
-    font-weight: 700;
-    line-height: 1.15;
-}
-
-.hero h1 span {
-    color: var(--pink);
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(45px, 8vw, 78px);
+    color: #ff91bd;
+    text-shadow: 0 0 35px #ff4f9170;
 }
 
 .hero p {
-    max-width: 600px;
-    margin: 20px auto;
-    color: var(--muted);
-    line-height: 1.9;
+    color: #d5c2df;
+    max-width: 580px;
+    margin: 15px auto;
     font-size: 14px;
+    line-height: 1.8;
 }
 
-.script-font {
-    font-family: 'Dancing Script', cursive;
-}
-
-.section-panel {
-    max-width: 900px;
-    margin: 0 auto 25px;
-    padding: 28px;
-    border-radius: 22px;
-    background: rgba(255,255,255,.065);
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 15px 50px rgba(0,0,0,.12);
+.main-card {
+    max-width: 920px;
+    margin: 20px auto 70px;
+    padding: 32px;
+    background: #ffffff0b;
+    border: 1px solid #ffffff20;
+    border-radius: 28px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 70px #00000050;
 }
 
 .section-title {
     font-size: 19px;
     font-weight: 600;
-    color: #ffadd0;
     margin-bottom: 20px;
 }
 
-.form-label {
-    color: #f0ddeb;
-    font-size: 13px;
-}
-
-.form-control {
-    background: rgba(0,0,0,.25);
-    color: white;
-    border: 1px solid rgba(255,255,255,.15);
-    border-radius: 12px;
-    padding: 13px 15px;
-}
-
-.form-control:focus {
-    background: rgba(0,0,0,.35);
-    color: white;
-    border-color: var(--pink);
-    box-shadow: 0 0 0 3px rgba(255,117,169,.12);
-}
-
-.form-control::placeholder {
-    color: #aa99b0;
-}
-
-.form-control[type=file]::file-selector-button {
-    background: var(--pink);
-    color: #260d1c;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-right: 12px;
-}
-
-.photo-preview {
-    display: none;
-    max-width: 100%;
-    max-height: 320px;
-    object-fit: contain;
-    border-radius: 16px;
-    margin: 15px auto 0;
-    background: #100914;
+.section-title i {
+    color: #ff79b0;
+    margin-right: 8px;
 }
 
 .template-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0,1fr));
-    gap: 14px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 13px;
 }
 
-.template-card {
-    border: 1px solid rgba(255,255,255,.13);
-    background: rgba(255,255,255,.045);
-    color: white;
-    border-radius: 17px;
-    padding: 22px 12px;
+.template {
+    padding: 20px 8px;
     text-align: center;
+    background: #ffffff09;
+    border: 1px solid #ffffff20;
+    border-radius: 17px;
     cursor: pointer;
     transition: .3s;
-    min-width: 0;
 }
 
-.template-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--pink);
-    background: rgba(255,117,169,.1);
+.template:hover,
+.template.active {
+    background: #ff4f9125;
+    border-color: #ff70ac;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px #ff4f9120;
 }
 
-.template-card.selected {
-    border: 2px solid var(--pink);
-    background: rgba(255,117,169,.15);
-    box-shadow: 0 0 25px rgba(255,117,169,.13);
-}
-
-.template-icon {
+.template i {
     display: block;
-    font-size: 35px;
-    margin-bottom: 10px;
+    font-size: 29px;
+    color: #ff83b5;
+    margin-bottom: 9px;
 }
 
-.template-card strong {
+.template span {
+    font-size: 12px;
+}
+
+.form-label {
+    color: #e8d9ef;
     font-size: 13px;
-    display: block;
 }
 
-.template-card small {
-    display: block;
-    color: #c8b8ce;
-    font-size: 10px;
-    margin-top: 7px;
+.form-control {
+    background: #ffffff0c !important;
+    border: 1px solid #ffffff25 !important;
+    color: white !important;
+    border-radius: 13px;
+    padding: 14px;
 }
 
-.main-btn {
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 15px 25px;
-    border-radius: 40px;
-    background: linear-gradient(120deg, #ff6fa7, #ad54df);
-    box-shadow: 0 8px 25px rgba(255,80,160,.2);
+.form-control::placeholder {
+    color: #b9a7c2;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px #ff4f9125 !important;
+    border-color: #ff79b0 !important;
+}
+
+textarea.form-control {
+    min-height: 125px;
+}
+
+.upload-box {
+    border: 2px dashed #ff72ac90;
+    border-radius: 20px;
+    background: #ff4f910c;
+    text-align: center;
+    padding: 32px 15px;
+    cursor: pointer;
     transition: .3s;
 }
 
-.main-btn:hover {
-    transform: translateY(-3px);
+.upload-box:hover {
+    background: #ff4f9120;
+    border-color: #ff8abb;
+}
+
+.upload-box i {
+    font-size: 45px;
+    color: #ff83b5;
+}
+
+.upload-box p {
+    margin: 10px 0 5px;
+}
+
+.upload-box small {
+    color: #bbaac5;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #ffffff30;
+    background: #ffffff10;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-photo {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 27px;
+    height: 27px;
+    border: none;
+    border-radius: 50%;
+    background: #ff285d;
     color: white;
-    box-shadow: 0 12px 35px rgba(255,80,160,.35);
+    cursor: pointer;
 }
 
-.main-btn:disabled {
-    opacity: .6;
-    cursor: wait;
-    transform: none;
-}
-
-.status {
+.photo-count {
     font-size: 12px;
-    color: #ffc0d8;
-    text-align: center;
-    margin-top: 15px;
-    overflow-wrap: anywhere;
+    color: #ffb0ce;
+    margin-top: 12px;
+}
+
+.create-btn {
+    width: 100%;
+    margin-top: 28px;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    background: linear-gradient(120deg, #ff4f91, #a855f7);
+    box-shadow: 0 8px 30px #ff4f9140;
+    transition: .3s;
+}
+
+.create-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px #ff4f9160;
+}
+
+.create-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
 }
 
 .result-box {
     display: none;
-    text-align: center;
+    background: #ffffff0b;
+    border: 1px solid #ff70ac80;
+    border-radius: 18px;
+    padding: 22px;
+    margin-top: 25px;
 }
 
 .share-link {
-    background: rgba(0,0,0,.3);
-    color: #ffb8d2;
-    padding: 14px;
-    border-radius: 12px;
-    overflow-wrap: anywhere;
+    background: #ffffff12;
+    color: #ffb5d1;
+    padding: 13px;
+    border-radius: 10px;
     font-size: 12px;
-    margin: 18px 0;
+    overflow-wrap: anywhere;
 }
 
 .copy-btn {
-    background: white;
-    color: #8b2c69;
+    background: #ff4f91;
+    color: white;
     border: none;
-    border-radius: 30px;
-    padding: 12px 25px;
-    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px;
 }
 
-/* SHARED PAGE */
+.error {
+    color: #ff9b9b;
+    font-size: 13px;
+    margin-top: 12px;
+    overflow-wrap: anywhere;
+}
+
+hr {
+    border-color: #ffffff30;
+    margin: 30px 0;
+}
+
+/* Shared page */
 
 #viewer {
     display: none;
     min-height: 100vh;
-    padding: 40px 15px;
+    padding: 35px 15px;
     align-items: center;
     justify-content: center;
 }
 
-.memory-page {
-    width: min(760px, 100%);
+.memory-card {
+    width: 100%;
+    max-width: 750px;
     padding: 35px;
     border-radius: 28px;
     text-align: center;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 25px 70px rgba(0,0,0,.35);
+    background: #ffffff10;
+    border: 1px solid #ff80b550;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 80px #00000050;
 }
 
-.memory-page h1 {
+.memory-heading {
     font-family: 'Dancing Script', cursive;
-    font-size: clamp(43px, 8vw, 75px);
-    line-height: 1.15;
-    margin: 12px 0;
+    color: #ff9bc3;
+    font-size: clamp(45px, 8vw, 70px);
     overflow-wrap: anywhere;
 }
 
-.memory-page p {
-    line-height: 1.9;
+.memory-subtitle {
+    color: #d9c7e2;
+    margin: 10px 0 25px;
+}
+
+.memory-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 25px 0;
+}
+
+.memory-gallery img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 2px solid #ffffff30;
+    box-shadow: 0 10px 25px #00000030;
+    transition: .3s;
+}
+
+.memory-gallery img:hover {
+    transform: scale(1.025);
+}
+
+.memory-message {
+    color: #f5e9f7;
+    font-size: 15px;
+    line-height: 2;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
 
-.memory-photo {
-    display: block;
-    width: 100%;
-    max-height: 480px;
-    object-fit: contain;
-    margin: 25px auto;
-    border-radius: 20px;
-    background: rgba(0,0,0,.2);
-}
-
-.view-kicker {
-    font-size: 11px;
-    letter-spacing: 4px;
-    font-weight: 600;
-}
-
-.view-message {
-    font-size: 14px;
-}
-
-.view-footer {
-    margin-top: 25px;
-    font-family: 'Dancing Script', cursive;
-    font-size: 28px;
-}
-
-.friend-theme {
-    background: linear-gradient(145deg, #3a235f, #a44885);
-}
-
-.birthday-theme {
-    background: linear-gradient(145deg, #6d3265, #c87a59);
-}
-
-.love-theme {
-    background: linear-gradient(145deg, #501333, #b63872);
-}
-
-.forever-theme {
-    background: linear-gradient(145deg, #210916, #831b4d, #35103c);
-    border: 1px solid #ff9bc0;
-}
-
-.anniversary-theme {
-    background: linear-gradient(145deg, #42202d, #a65b75, #572b4d);
-}
-
-.proposal-theme {
-    background: linear-gradient(145deg, #53103e, #bd4380);
-}
-
-.distance-theme {
-    background: linear-gradient(145deg, #101c3d, #453d83);
-}
-
-.decoration {
-    font-size: 34px;
-    margin: 15px 0;
-}
-
-.view-yes {
-    display: none;
-    padding: 12px 25px;
-    border-radius: 30px;
-    border: none;
-    background: white;
-    color: #9c2f68;
-    font-weight: 600;
-    margin-top: 18px;
-}
-
-#errorPage {
-    display: none;
-    text-align: center;
-    padding: 100px 15px;
+.memory-icon {
+    font-size: 35px;
+    color: #ff83b5;
+    margin: 15px;
 }
 
 footer {
     text-align: center;
-    color: #aa99b0;
+    color: #a995b1;
     font-size: 12px;
-    padding: 30px 10px;
+    padding: 20px;
 }
 
-@media(max-width:650px) {
+@media(max-width: 650px) {
+    .main-card {
+        margin: 15px;
+        padding: 20px 15px;
+    }
+
+    .template-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .hero {
-        padding-top: 60px;
+        padding-top: 55px;
     }
 
-    .section-panel {
-        padding: 20px;
+    .memory-card {
+        padding: 23px 15px;
     }
 
-    .template-grid {
-        grid-template-columns: repeat(2, minmax(0,1fr));
-        gap: 10px;
+    .memory-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
     }
 
-    .template-card {
-        padding: 18px 8px;
-    }
-
-    .memory-page {
-        padding: 25px 18px;
+    .memory-gallery img {
+        height: 170px;
     }
 }
 
-@media(max-width:360px) {
-    .template-grid {
+@media(max-width: 360px) {
+    .memory-gallery {
         grid-template-columns: 1fr;
+    }
+
+    .memory-gallery img {
+        height: 230px;
     }
 }
 </style>
@@ -409,429 +440,492 @@ footer {
 
 <body>
 
-<!-- NAVBAR -->
-
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+<nav class="navbar navbar-dark">
     <div class="container">
         <a class="navbar-brand brand" href="./">
-            Memory Maker ❤️
+            <i class="bi bi-heart-fill"></i> Forever Together
         </a>
-
-        <a href="./" class="nav-link">
-            <i class="bi bi-house-heart"></i> Home
-        </a>
+        <span class="small text-light">Made with Love ❤️</span>
     </div>
 </nav>
 
-<!-- GENERATOR -->
-
 <main id="generator">
 
-    <section class="hero container">
-        <div class="badge rounded-pill bg-light text-dark px-3 py-2 mb-3">
-            ✨ Your memories, your website
-        </div>
-
-        <h1>
-            Make Your Own<br>
-            <span>Beautiful Website</span>
-        </h1>
-
+    <section class="hero">
+        <h1>Create Your Love Story</h1>
         <p>
-            Upload your favourite photo, select a design,
-            write your message and create a special website
-            with a shareable link.
+            Every picture tells a story. Choose your favorite photos,
+            write a beautiful message, and create a memory worth sharing.
         </p>
     </section>
 
-    <div class="container pb-5">
+    <section class="main-card">
 
-        <!-- PHOTO -->
+        <h5 class="section-title">
+            <i class="bi bi-grid-fill"></i> Choose Your Template
+        </h5>
 
-        <section class="section-panel">
-            <h2 class="section-title">
-                <i class="bi bi-camera-heart"></i>
-                01. Upload Your Photo
-            </h2>
+        <div class="template-grid">
 
-            <label class="form-label" for="photo">
-                Select a photo from your device
-            </label>
-
-            <input
-                class="form-control"
-                type="file"
-                id="photo"
-                accept="image/jpeg,image/png,image/webp"
-            >
-
-            <img id="photoPreview" class="photo-preview" alt="Selected photo">
-
-            <small class="text-secondary">
-                JPG, PNG or WEBP. Maximum file size: 5 MB.
-            </small>
-        </section>
-
-        <!-- TEMPLATES -->
-
-        <section class="section-panel">
-            <h2 class="section-title">
-                <i class="bi bi-palette"></i>
-                02. Choose Your Template
-            </h2>
-
-            <div class="template-grid">
-
-                <button type="button" class="template-card selected" data-type="friend">
-                    <span class="template-icon">👯</span>
-                    <strong>Best Friend</strong>
-                    <small>Friendship memories</small>
-                </button>
-
-                <button type="button" class="template-card" data-type="birthday">
-                    <span class="template-icon">🎂</span>
-                    <strong>Birthday</strong>
-                    <small>Birthday celebration</small>
-                </button>
-
-                <button type="button" class="template-card" data-type="love">
-                    <span class="template-icon">❤️</span>
-                    <strong>Love Memory</strong>
-                    <small>Romantic memories</small>
-                </button>
-
-                <button type="button" class="template-card" data-type="forever">
-                    <span class="template-icon">💗</span>
-                    <strong>My Forever Love</strong>
-                    <small>Forever and always</small>
-                </button>
-
-                <button type="button" class="template-card" data-type="anniversary">
-                    <span class="template-icon">💍</span>
-                    <strong>Anniversary</strong>
-                    <small>Special celebration</small>
-                </button>
-
-                <button type="button" class="template-card" data-type="proposal">
-                    <span class="template-icon">💌</span>
-                    <strong>Proposal</strong>
-                    <small>Will you be mine?</small>
-                </button>
-
-                <button type="button" class="template-card" data-type="distance">
-                    <span class="template-icon">🌙</span>
-                    <strong>Long Distance</strong>
-                    <small>Love beyond distance</small>
-                </button>
-
+            <div class="template active" data-type="friend">
+                <i class="bi bi-people-fill"></i>
+                <span>Best Friend</span>
             </div>
-        </section>
 
-        <!-- DETAILS -->
+            <div class="template" data-type="birthday">
+                <i class="bi bi-balloon-heart-fill"></i>
+                <span>Birthday</span>
+            </div>
 
-        <section class="section-panel">
-            <h2 class="section-title">
-                <i class="bi bi-pencil-square"></i>
-                03. Personalize Your Website
-            </h2>
+            <div class="template" data-type="love">
+                <i class="bi bi-heart-fill"></i>
+                <span>Love Memory</span>
+            </div>
 
-            <label class="form-label" for="personName">
-                Name or title
-            </label>
+            <div class="template" data-type="forever">
+                <i class="bi bi-infinity"></i>
+                <span>My Forever Love</span>
+            </div>
 
+            <div class="template" data-type="anniversary">
+                <i class="bi bi-calendar-heart-fill"></i>
+                <span>Anniversary</span>
+            </div>
+
+            <div class="template" data-type="proposal">
+                <i class="bi bi-gem"></i>
+                <span>Proposal</span>
+            </div>
+
+            <div class="template" data-type="distance">
+                <i class="bi bi-globe-asia-australia"></i>
+                <span>Long Distance</span>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h5 class="section-title">
+            <i class="bi bi-person-heart"></i> Personal Details
+        </h5>
+
+        <div class="mb-3">
+            <label class="form-label">Person's Name</label>
             <input
-                class="form-control mb-3"
                 type="text"
                 id="personName"
+                class="form-control"
                 maxlength="50"
-                placeholder="Example: My Beautiful Love"
+                placeholder="Enter their name..."
             >
+        </div>
 
-            <label class="form-label" for="message">
-                Your special message
-            </label>
-
+        <div class="mb-4">
+            <label class="form-label">Your Special Message</label>
             <textarea
-                class="form-control mb-3"
-                id="message"
-                rows="5"
+                id="personMessage"
+                class="form-control"
                 maxlength="1000"
-                placeholder="Write something special..."
+                placeholder="Write something from your heart..."
             ></textarea>
+        </div>
 
-            <button class="main-btn w-100" id="generateBtn">
-                <i class="bi bi-magic"></i>
-                Create My Website ❤️
-            </button>
+        <hr>
 
-            <div class="status" id="status"></div>
-        </section>
+        <h5 class="section-title">
+            <i class="bi bi-images"></i> Select Multiple Photos
+        </h5>
 
-        <!-- RESULT -->
+        <label class="upload-box w-100" for="photoInput">
+            <i class="bi bi-cloud-arrow-up-fill"></i>
+            <p>Select your favorite memories</p>
+            <small>JPG, PNG, WEBP · Up to 8 photos · 5 MB each</small>
+        </label>
 
-        <section class="section-panel result-box" id="result">
-            <h2 class="section-title">
-                🎉 Your Website Is Ready!
-            </h2>
+        <input
+            type="file"
+            id="photoInput"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            hidden
+        >
 
-            <p class="text-secondary small">
-                Share your special website with anyone.
+        <div class="photo-count" id="photoCount">
+            No photos selected
+        </div>
+
+        <div class="photo-grid" id="photoGrid"></div>
+
+        <button class="create-btn" id="createBtn">
+            <i class="bi bi-magic"></i>
+            Create My Special Page
+        </button>
+
+        <p class="error" id="errorMessage" role="alert"></p>
+
+        <div class="result-box" id="resultBox">
+
+            <h5 class="text-center mb-3">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                Your Memory Page Is Ready!
+            </h5>
+
+            <p class="small text-center">
+                Share this link with your special person.
             </p>
 
             <div class="share-link" id="shareLink"></div>
 
-            <button class="copy-btn" id="copyBtn">
-                <i class="bi bi-copy"></i> Copy Link
+            <button class="copy-btn w-100 mt-3" id="copyBtn">
+                <i class="bi bi-clipboard"></i> Copy Share Link
             </button>
 
-            <div class="mt-4">
-                <a class="btn btn-outline-light rounded-pill px-4"
-                   id="openWebsite" href="#">
-                    <i class="bi bi-box-arrow-up-right"></i>
-                    Open Website
-                </a>
-            </div>
-        </section>
+            <a
+                href="#"
+                target="_blank"
+                rel="noopener"
+                id="openLink"
+                class="btn btn-outline-light w-100 mt-2"
+            >
+                Open Your Page
+            </a>
 
-    </div>
-</main>
-
-<!-- VIEWER PAGE -->
-
-<main id="viewer">
-    <article class="memory-page" id="memoryPage">
-
-        <div class="view-kicker" id="viewKicker"></div>
-
-        <div class="decoration" id="decoration"></div>
-
-        <h1 id="viewTitle"></h1>
-
-        <img class="memory-photo" id="viewPhoto" alt="Shared memory">
-
-        <p class="view-message" id="viewMessage"></p>
-
-        <div id="specialContent"></div>
-
-        <div class="view-footer" id="viewFooter">
-            Made with love ❤️
         </div>
 
-    </article>
+    </section>
+
 </main>
 
-<div id="errorPage">
-    <h1 class="script-font text-danger display-3">Memory not found 💔</h1>
-    <p class="text-secondary">This link may be invalid or the page may have been deleted.</p>
-    <a href="./" class="btn btn-outline-light rounded-pill mt-3">
-        Create a new website
-    </a>
-</div>
+<!-- Shared personalized page -->
+
+<section id="viewer">
+
+    <div class="memory-card">
+
+        <div class="memory-icon">
+            <i class="bi bi-heart-fill"></i>
+        </div>
+
+        <h1 class="memory-heading" id="memoryTitle">
+            A Special Memory
+        </h1>
+
+        <p class="memory-subtitle" id="memorySubtitle"></p>
+
+        <div class="memory-gallery" id="memoryGallery"></div>
+
+        <div class="memory-icon">
+            <i class="bi bi-hearts"></i>
+        </div>
+
+        <p class="memory-message" id="memoryMessage"></p>
+
+        <div class="memory-icon">❤️</div>
+
+        <p class="small text-secondary">
+            Made with love.
+        </p>
+
+    </div>
+
+</section>
 
 <footer>
-    Memory Maker ❤️ | Create beautiful memories
+    Forever Together © 2026 | Made with ❤️
 </footer>
 
 <script>
+"use strict";
 
 /* FIREBASE */
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+let db;
+let storage;
+
+try {
+    if (!window.firebaseConfig) {
+        throw new Error("Firebase configuration not found.");
+    }
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(window.firebaseConfig);
+    }
+
+    db = firebase.firestore();
+    storage = firebase.storage();
+
+} catch (error) {
+    console.error(error);
+    showError("Firebase setup error: " + error.message);
 }
 
-const db = firebase.firestore();
-const storage = firebase.storage();
+/* TEMPLATES */
 
-/* APP DATA */
-
-let selectedType = "friend";
-let selectedFile = null;
-
-const $ = id => document.getElementById(id);
-
-const templateData = {
+const templates = {
     friend: {
-        kicker: "A SPECIAL FRIENDSHIP",
-        decoration: "👯 💖 ✨",
-        footer: "Best friends forever! 🫶",
-        className: "friend-theme"
+        title: "For My Best Friend",
+        subtitle: "A friendship that means everything",
+        color: "#ff7eb3"
     },
-
     birthday: {
-        kicker: "A DAY FULL OF HAPPINESS",
-        decoration: "🎂 🎉 🎈",
-        footer: "Wishing you endless happiness! 🎂",
-        className: "birthday-theme"
+        title: "Happy Birthday!",
+        subtitle: "Wishing you a beautiful day",
+        color: "#ffb347"
     },
-
     love: {
-        kicker: "OUR BEAUTIFUL MEMORIES",
-        decoration: "❤️ 🌹 💕",
-        footer: "Forever in my heart ❤️",
-        className: "love-theme"
+        title: "My Love",
+        subtitle: "Every moment with you is special",
+        color: "#ff5d91"
     },
-
     forever: {
-        kicker: "TO MY ONE AND ONLY",
-        decoration: "💗 🌹 ♾️",
-        footer: "You are my forever and always. ❤️",
-        className: "forever-theme"
+        title: "My Forever Love",
+        subtitle: "You are my today and all my tomorrows",
+        color: "#c084fc"
     },
-
     anniversary: {
-        kicker: "ANOTHER YEAR OF LOVE",
-        decoration: "💍 🥂 ❤️",
-        footer: "Here's to many more beautiful years! 💍",
-        className: "anniversary-theme"
+        title: "Happy Anniversary",
+        subtitle: "Another beautiful chapter together",
+        color: "#f9a8d4"
     },
-
     proposal: {
-        kicker: "I HAVE SOMETHING TO ASK",
-        decoration: "💌 💖 💍",
-        footer: "With all my heart ❤️",
-        className: "proposal-theme"
+        title: "A Question From My Heart",
+        subtitle: "Some feelings deserve to be shared",
+        color: "#f472b6"
     },
-
     distance: {
-        kicker: "NO DISTANCE CAN CHANGE MY LOVE",
-        decoration: "🌙 ⭐ 💌",
-        footer: "No matter the distance, you are close to my heart. ❤️",
-        className: "distance-theme"
+        title: "Distance Means So Little",
+        subtitle: "Our hearts are never far apart",
+        color: "#67e8f9"
     }
 };
 
-/* SELECT TEMPLATE */
+let selectedType = "friend";
+let selectedPhotos = [];
 
-document.querySelectorAll(".template-card").forEach(card => {
+/* TEMPLATE SELECTION */
+
+document.querySelectorAll(".template").forEach(card => {
 
     card.addEventListener("click", () => {
 
-        document.querySelectorAll(".template-card").forEach(item => {
-            item.classList.remove("selected");
+        document.querySelectorAll(".template").forEach(item => {
+            item.classList.remove("active");
         });
 
-        card.classList.add("selected");
+        card.classList.add("active");
         selectedType = card.dataset.type;
 
     });
 
 });
 
-/* IMAGE PREVIEW */
+/* PHOTO SELECTION */
 
-$("photo").addEventListener("change", () => {
+const photoInput = document.getElementById("photoInput");
+const photoGrid = document.getElementById("photoGrid");
 
-    const file = $("photo").files[0];
+photoInput.addEventListener("change", () => {
 
-    selectedFile = null;
-    $("photoPreview").style.display = "none";
+    const newFiles = Array.from(photoInput.files);
 
-    if (!file) return;
-
-    const allowed = [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-    ];
-
-    if (!allowed.includes(file.type)) {
-        $("status").textContent = "Please select a JPG, PNG or WEBP photo.";
-        $("photo").value = "";
+    if (selectedPhotos.length + newFiles.length > 8) {
+        showError("You can select a maximum of 8 photos.");
+        photoInput.value = "";
         return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-        $("status").textContent = "Your photo must be smaller than 5 MB.";
-        $("photo").value = "";
-        return;
+    for (const file of newFiles) {
+
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            showError("Only JPG, PNG and WEBP images are allowed.");
+            continue;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showError(file.name + " is larger than 5 MB.");
+            continue;
+        }
+
+        selectedPhotos.push(file);
     }
 
-    selectedFile = file;
+    photoInput.value = "";
 
-    const localURL = URL.createObjectURL(file);
-
-    $("photoPreview").src = localURL;
-    $("photoPreview").style.display = "block";
-
-    $("status").textContent = "Photo selected successfully ❤️";
+    renderPhotoPreviews();
+    showError("");
 
 });
 
-/* GENERATE WEBSITE */
+/* PHOTO PREVIEW */
 
-$("generateBtn").addEventListener("click", async () => {
+function renderPhotoPreviews() {
 
-    const name = $("personName").value.trim();
-    const message = $("message").value.trim();
+    photoGrid.replaceChildren();
 
-    if (!selectedFile) {
-        $("status").textContent = "Please select a photo first.";
+    selectedPhotos.forEach((file, index) => {
+
+        const item = document.createElement("div");
+        item.className = "photo-item";
+
+        const img = document.createElement("img");
+        const imageURL = URL.createObjectURL(file);
+
+        img.src = imageURL;
+        img.alt = "Selected photo " + (index + 1);
+
+        img.onload = () => URL.revokeObjectURL(imageURL);
+
+        const remove = document.createElement("button");
+        remove.className = "remove-photo";
+        remove.type = "button";
+        remove.innerHTML = '<i class="bi bi-x"></i>';
+        remove.setAttribute("aria-label", "Remove photo");
+
+        remove.addEventListener("click", () => {
+            selectedPhotos.splice(index, 1);
+            renderPhotoPreviews();
+        });
+
+        item.append(img, remove);
+        photoGrid.appendChild(item);
+
+    });
+
+    document.getElementById("photoCount").textContent =
+        selectedPhotos.length + " of 8 photos selected";
+
+}
+
+/* ERROR MESSAGE */
+
+function showError(message) {
+    document.getElementById("errorMessage").textContent = message;
+}
+
+/* CREATE PAGE */
+
+document.getElementById("createBtn").addEventListener("click", async () => {
+
+    showError("");
+    document.getElementById("resultBox").style.display = "none";
+
+    if (!db || !storage) {
+        showError("Firebase is not connected. Check firebase-config.js.");
         return;
     }
+
+    const name = document.getElementById("personName").value.trim();
+    const message = document.getElementById("personMessage").value.trim();
 
     if (!name || !message) {
-        $("status").textContent = "Please enter your name and message.";
+        showError("Please enter the name and your special message.");
         return;
     }
 
-    const button = $("generateBtn");
+    if (selectedPhotos.length === 0) {
+        showError("Please select at least one photo.");
+        return;
+    }
+
+    const button = document.getElementById("createBtn");
 
     button.disabled = true;
-    button.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Creating...';
-
-    $("status").textContent = "Uploading photo and creating your website...";
+    button.innerHTML =
+        '<span class="spinner-border spinner-border-sm"></span> Uploading memories...';
 
     try {
 
+        /* Create unique document ID */
+
         const pageRef = db.collection("pages").doc();
+        const pageId = pageRef.id;
 
-        const photoRef = storage.ref(
-            "pages/" + pageRef.id + "/photo"
-        );
+        const photoURLs = [];
 
-        await photoRef.put(selectedFile, {
-            contentType: selectedFile.type
-        });
+        /* Upload all selected photos */
 
-        const photoURL = await photoRef.getDownloadURL();
+        for (let i = 0; i < selectedPhotos.length; i++) {
+
+            const file = selectedPhotos[i];
+
+            /* Use a safe predictable filename instead of the original
+               filename, which may contain spaces or special characters. */
+            const extension = file.type === "image/jpeg" ? "jpg" :
+                              file.type === "image/png" ? "png" : "webp";
+
+            const photoRef = storage.ref().child(
+                "pages/" + pageId + "/photos/photo_" + (i + 1) + "." + extension
+            );
+
+            const result = await photoRef.put(file, {
+                contentType: file.type
+            });
+
+            const url = await result.ref.getDownloadURL();
+
+            photoURLs.push(url);
+
+            button.innerHTML =
+                "Uploading photo " + (i + 1) + " of " + selectedPhotos.length + "...";
+        }
+
+        /* Save information in Firestore */
 
         await pageRef.set({
+
             name: name,
             message: message,
             type: selectedType,
-            photoURL: photoURL,
+            photoURLs: photoURLs,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
+
         });
 
-        const link = new URL(window.location.href);
+        /* Generate a GitHub Pages sharing URL.
+           Do not use window.location.href here because the page may
+           have been opened locally using a file:// address. */
 
-        link.search = "";
-        link.hash = "";
-        link.searchParams.set("id", pageRef.id);
+        const DEPLOYED_SITE_URL = "https://nayanhalder2006a-ai.github.io/love/";
+        const shareURL = new URL(DEPLOYED_SITE_URL);
+        shareURL.searchParams.set("id", pageId);
 
-        $("shareLink").textContent = link.href;
-        $("openWebsite").href = link.href;
+        document.getElementById("shareLink").textContent = shareURL.href;
+        document.getElementById("openLink").href = shareURL.href;
 
-        $("result").style.display = "block";
-        $("status").textContent = "Your website is ready! ❤️";
+        document.getElementById("resultBox").style.display = "block";
 
-        $("result").scrollIntoView({
+        document.getElementById("resultBox").scrollIntoView({
             behavior: "smooth",
             block: "center"
         });
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Creation error:", error);
 
-        $("status").textContent =
-            "Could not create website: " + error.message;
+        let friendlyMessage = "Something went wrong while creating your page.";
+
+        if (error.code === "storage/unauthorized" ||
+            error.code === "permission-denied") {
+            friendlyMessage = "Firebase permission denied. Check your Firebase Storage and Firestore security rules.";
+        } else if (error.code === "storage/bucket-not-found" ||
+                   error.code === "storage/project-not-found") {
+            friendlyMessage = "Firebase Storage bucket was not found. Check the storageBucket value in firebase-config.js and make sure Firebase Storage is enabled.";
+        } else if (error.code === "storage/canceled") {
+            friendlyMessage = "The photo upload was cancelled. Please try again.";
+        } else if (error.code === "unavailable" ||
+                   error.code === "storage/retry-limit-exceeded") {
+            friendlyMessage = "Network or Firebase service problem. Check your internet connection and try again.";
+        }
+
+        showError(friendlyMessage + " Details: " + error.message);
 
     } finally {
 
         button.disabled = false;
-        button.innerHTML = '<i class="bi bi-magic"></i> Create My Website ❤️';
+        button.innerHTML =
+            '<i class="bi bi-magic"></i> Create My Special Page';
 
     }
 
@@ -839,109 +933,115 @@ $("generateBtn").addEventListener("click", async () => {
 
 /* COPY LINK */
 
-$("copyBtn").addEventListener("click", async () => {
+document.getElementById("copyBtn").addEventListener("click", async () => {
 
-    const link = $("shareLink").textContent;
+    const link = document.getElementById("shareLink").textContent;
 
     try {
 
         await navigator.clipboard.writeText(link);
 
-        $("copyBtn").innerHTML = '<i class="bi bi-check-circle"></i> Copied!';
+        document.getElementById("copyBtn").innerHTML =
+            '<i class="bi bi-check-circle"></i> Link Copied!';
 
-    } catch {
+    } catch (error) {
 
-        window.prompt("Copy this link:", link);
+        showError("Copy failed. Please copy the link manually.");
 
     }
 
 });
 
-/* LOAD SHARED WEBSITE */
+/* LOAD SHARED PAGE */
 
-async function loadWebsite(id) {
+async function loadSharedPage(pageId) {
 
-    $("generator").style.display = "none";
-    $("viewer").style.display = "flex";
+    document.getElementById("generator").style.display = "none";
+    document.getElementById("viewer").style.display = "flex";
 
     try {
 
-        const doc = await db.collection("pages").doc(id).get();
+        if (!db) {
+            throw new Error("Firebase is not connected.");
+        }
+
+        const doc = await db.collection("pages").doc(pageId).get();
 
         if (!doc.exists) {
-            throw new Error("Page not found");
+            throw new Error("This memory page does not exist.");
         }
 
         const data = doc.data();
-        const theme = templateData[data.type];
 
         if (
-            !theme ||
+            !templates[data.type] ||
             typeof data.name !== "string" ||
             typeof data.message !== "string" ||
-            typeof data.photoURL !== "string"
+            !Array.isArray(data.photoURLs) ||
+            data.photoURLs.length === 0 ||
+            data.photoURLs.length > 8 ||
+            !data.photoURLs.every(url =>
+                typeof url === "string" &&
+                url.startsWith("https://")
+            )
         ) {
-            throw new Error("Invalid page data");
+            throw new Error("This memory page contains invalid data.");
         }
 
-        $("memoryPage").className =
-            "memory-page " + theme.className;
+        const template = templates[data.type];
 
-        $("viewKicker").textContent = theme.kicker;
-        $("decoration").textContent = theme.decoration;
-        $("viewTitle").textContent = data.name;
-        $("viewMessage").textContent = data.message;
-        $("viewFooter").textContent = theme.footer;
+        document.title = data.name + " | Forever Together";
 
-        $("viewPhoto").src = data.photoURL;
+        document.getElementById("memoryTitle").textContent =
+            template.title + " " + data.name;
 
-        /* SPECIAL TEMPLATE CONTENT */
+        document.getElementById("memorySubtitle").textContent =
+            template.subtitle;
 
-        const extra = $("specialContent");
-        extra.replaceChildren();
+        document.getElementById("memoryMessage").textContent =
+            data.message;
 
-        if (data.type === "forever") {
+        document.querySelector(".memory-card").style.borderColor =
+            template.color;
 
-            extra.textContent = "Every moment with you is my favourite. I choose you, today and always. ❤️";
+        /* Display all photos */
 
-        } else if (data.type === "proposal") {
+        const gallery = document.getElementById("memoryGallery");
 
-            extra.textContent = "Will you make this beautiful journey even more special? 💍";
+        gallery.replaceChildren();
 
-        } else if (data.type === "distance") {
+        data.photoURLs.forEach((url, index) => {
 
-            extra.textContent = "Miles apart, but always together in heart. 🌙";
+            const img = document.createElement("img");
 
-        } else if (data.type === "birthday") {
+            img.src = url;
+            img.alt = "Memory photo " + (index + 1);
+            img.loading = "lazy";
 
-            extra.textContent = "May your special day be filled with smiles, laughter and beautiful memories! 🎉";
+            gallery.appendChild(img);
 
-        } else if (data.type === "anniversary") {
-
-            extra.textContent = "Every chapter with you is worth celebrating. Here's to our story! 💕";
-
-        } else if (data.type === "friend") {
-
-            extra.textContent = "Life is better with a friend like you. Thank you for every memory! 🫶";
-
-        } else {
-
-            extra.textContent = "Some memories stay in our hearts forever. ❤️";
-
-        }
+        });
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Viewer error:", error);
 
-        $("viewer").style.display = "none";
-        $("errorPage").style.display = "block";
+        document.getElementById("memoryTitle").textContent =
+            "Memory Not Found";
+
+        document.getElementById("memorySubtitle").textContent =
+            "This page could not be loaded.";
+
+        document.getElementById("memoryGallery").replaceChildren();
+
+        document.getElementById("memoryMessage").textContent =
+            error.message;
 
     }
 
 }
 
-/* CHECK URL */
+/* CHECK SHARED LINK */
 
 const params = new URLSearchParams(window.location.search);
 const pageId = params.get("id");
@@ -949,17 +1049,47 @@ const pageId = params.get("id");
 if (pageId) {
 
     if (/^[A-Za-z0-9]+$/.test(pageId)) {
-        loadWebsite(pageId);
+        loadSharedPage(pageId);
     } else {
-        $("generator").style.display = "none";
-        $("errorPage").style.display = "block";
+
+        document.getElementById("generator").style.display = "none";
+        document.getElementById("viewer").style.display = "flex";
+
+        document.getElementById("memoryTitle").textContent =
+            "Invalid Link";
+
+        document.getElementById("memorySubtitle").textContent =
+            "The sharing link is not valid.";
+
+        document.getElementById("memoryMessage").textContent =
+            "Please ask the sender to share the link again.";
+
     }
 
 }
 
-</script>
+/* FLOATING HEARTS */
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+function createHeart() {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.textContent = "♥";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (12 + Math.random() * 22) + "px";
+    heart.style.animationDuration = (7 + Math.random() * 6) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 14000);
+
+}
+
+setInterval(createHeart, 650);
+
+</script>
 
 </body>
 </html>
